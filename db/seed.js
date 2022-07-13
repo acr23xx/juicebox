@@ -7,7 +7,6 @@ const {
   createPost,
   updatePost,
   getAllPosts,
-  getPostsByUser,
 } = require("./index");
 
 async function dropTables() {
@@ -16,6 +15,8 @@ async function dropTables() {
 
     // have to make sure to drop in correct order
     await client.query(`
+      DROP TABLE IF EXISTS post_tags;
+      DROP TABLE IF EXISTS tags;
       DROP TABLE IF EXISTS posts;
       DROP TABLE IF EXISTS users;
     `);
