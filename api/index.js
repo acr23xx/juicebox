@@ -8,6 +8,11 @@ const jwt = require("jsonwebtoken");
 const { getUserById } = require("../db");
 const { JWT_SECRET } = process.env;
 
+// jwt.sign({}, process.env.JWT_SECRET);
+// res.send({
+//   id: user.id,
+// });
+
 // set `req.user` if possible
 apiRouter.use(async (req, res, next) => {
   const prefix = "Bearer ";
@@ -37,6 +42,14 @@ apiRouter.use(async (req, res, next) => {
   }
 });
 
+apiRouter.use((req, res, next) => {
+  if (req.user) {
+    console.log("User is set:", req.user);
+  }
+
+  next();
+});
+
 // Attach routers below here
 
 const usersRouter = require("./users");
@@ -46,6 +59,9 @@ const postsRouter = require("./posts");
 apiRouter.use("/posts", postsRouter);
 
 const tagsRouter = require("./tags");
+const res = require("express/lib/response");
+const { token } = require("morgan");
+const { user } = require("pg/lib/defaults");
 apiRouter.use("/tags", tagsRouter);
 
 apiRouter.use(async (req, res, next) => {
