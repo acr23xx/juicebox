@@ -362,7 +362,7 @@ const getAllTags = async () => {
   }
 };
 
-const getUserByUsername = async (username) => {
+async function getUserByUsername(username) {
   try {
     const {
       rows: [user],
@@ -370,7 +370,7 @@ const getUserByUsername = async (username) => {
       `
       SELECT *
       FROM users
-      WHERE username=$1
+      WHERE username=$1;
     `,
       [username]
     );
@@ -379,7 +379,7 @@ const getUserByUsername = async (username) => {
   } catch (error) {
     throw error;
   }
-};
+}
 
 module.exports = {
   client,
